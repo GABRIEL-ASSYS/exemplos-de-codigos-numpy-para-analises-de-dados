@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Python para análise de dados</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            padding: 30px;
+            max-width: 900px;
+            margin: auto;
+            margin-right: 250px;
+        }
+
+        h1 {
+            color: #004879;
+        }
+
+        pre {
+            background: #111;
+            color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            white-space: pre-wrap;
+        }
+
+        .bloco {
+            background-color: #e9f5ff;
+            padding: 20px;
+            border-left: 5px solid #0077b6;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #aaa;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #d6eaf8;
+        }
+
+        #sidebar {
+            position: fixed;
+            top: 30px;
+            /* mesmo padding-top do body */
+            right: 30px;
+            /* mesmo padding-right do body */
+            width: 200px;
+            max-height: calc(100vh - 60px);
+            overflow-y: auto;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        #sidebar h2 {
+            font-size: 16px;
+            margin-top: 0;
+            color: #004879;
+        }
+
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #sidebar li {
+            margin: 8px 0;
+        }
+
+        #sidebar a {
+            text-decoration: none;
+            color: #0077b6;
+            font-size: 14px;
+        }
+
+        #sidebar a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <nav id="sidebar">
+        <h2>Conteúdo</h2>
+        <ul>
+            <li><a href="#numpy-criacao-arrays">➕ Criação de Arrays</a></li>
+            <li><a href="#tipos-inspecao">🕵️ Tipos de Dados e Inspeção</a></li>
+            <li><a href="#indexacao-e-slicing">🧩 Indexação e Slicing</a></li>
+            <li><a href="#operacoes-vetoriais-broadcasting">⚡ Operações Vetoriais e Broadcasting</a></li>
+            <li><a href="#funcoes-universais-ufuncs">🔣 Funções Universais (ufuncs)</a></li>
+            <li><a href="#agregacoes-estatisticas">🔢 Agregações e Estatísticas</a></li>
+            <li><a href="#manipulacao-formato">🔄 Manipulação de Formato (reshape, transpose, stack)</a></li>
+            <li><a href="#mascaras-filtragem-boolean">🔍 Máscaras e Filtragem Booleana</a></li>
+            <li><a href="#algebra-linear">📐 Álgebra Linear</a></li>
+            <li><a href="#transformadas-fourier">🔄 Transformadas de Fourier</a></li>
+            <li><a href="#geracao-aleatorios">🎲 Geração de Números Aleatórios</a></li>
+            <li><a href="#leitura-gravacao-arquivos">📂 Leitura e Gravação de Arquivos</a></li>
+            <li><a href="#interoperabilidade">🔗 Interoperabilidade</a></li>
+        </ul>
+    </nav>
+
+    <h1 id="numpy-criacao-arrays">➕ Criação de Arrays</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# a partir de listas
+a = np.array([1, 2, 3, 4])
+
+# arrays multidimensionais
+m = np.array([[1, 2], [3, 4]])
+
+# arrays com valores padrão
+zeros = np.zeros((3, 4))       # matriz 3×4 de zeros
+ones  = np.ones(5)             # vetor de cinco uns
+eye   = np.eye(3)              # matriz identidade 3×3
+seq   = np.arange(0, 10, 2)    # [0, 2, 4, 6, 8]
+lin   = np.linspace(0, 1, 5)   # cinco pontos entre 0 e 1
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Cria estruturas de dados eficientes em memória para cálculos vetorizados e operações matemáticas de alto
+            desempenho.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>np.array([...])</strong>: converte listas em arrays NumPy de uma ou múltiplas dimensões.</li>
+            <li><strong>np.zeros((3,4))</strong>: inicializa um array 3×4 preenchido com zeros.</li>
+            <li><strong>np.ones(5)</strong>: cria um vetor de comprimento 5 com todos os elementos iguais a 1.</li>
+            <li><strong>np.eye(3)</strong>: gera uma matriz identidade 3×3.</li>
+            <li><strong>np.arange(0,10,2)</strong>: cria um array com valores de 0 a 8, passo 2.</li>
+            <li><strong>np.linspace(0,1,5)</strong>: gera 5 valores igualmente espaçados entre 0 e 1.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída / Shape</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>a</td>
+                    <td>array([1, 2, 3, 4]) (shape=(4,))</td>
+                </tr>
+                <tr>
+                    <td>m</td>
+                    <td>array([[1, 2], [3, 4]]) (shape=(2,2))</td>
+                </tr>
+                <tr>
+                    <td>zeros</td>
+                    <td>array de zeros (shape=(3,4))</td>
+                </tr>
+                <tr>
+                    <td>seq</td>
+                    <td>array([0, 2, 4, 6, 8])</td>
+                </tr>
+                <tr>
+                    <td>lin</td>
+                    <td>array([0. , 0.25, 0.5 , 0.75, 1. ])</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="tipos-inspecao">🕵️ Tipos de Dados e Inspeção</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# Criar array de exemplo
+a = np.array([1, 2, 3, 4])
+
+# Inspeção de tipos e dimensões
+print("dtype:", a.dtype)   # tipo dos elementos, ex: int64
+print("shape:", a.shape)   # dimensão do array, ex: (4,)
+print("ndim:", a.ndim)     # número de eixos, ex: 1
+print("size:", a.size)     # número total de elementos, ex: 4
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Permite entender a estrutura de um array NumPy — seu tipo de dado, forma (shape), número de eixos (dimensões)
+            e quantidade total de elementos — informações essenciais para garantir compatibilidade em operações
+            vetorizadas.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>a.dtype</strong>: retorna o tipo de dado armazenado (por exemplo, <code>int64</code>,
+                <code>float32</code>).
+            </li>
+            <li><strong>a.shape</strong>: informa a forma do array, isto é, quantos elementos em cada dimensão (ex:
+                <code>(4,)</code> para vetor de 4).
+            </li>
+            <li><strong>a.ndim</strong>: número de dimensões (ou eixos) do array (ex: <code>1</code> para vetor,
+                <code>2</code> para matriz).
+            </li>
+            <li><strong>a.size</strong>: total de elementos no array (produto de todas as dimensões).</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Propriedade</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>dtype</td>
+                    <td>int64</td>
+                </tr>
+                <tr>
+                    <td>shape</td>
+                    <td>(4,)</td>
+                </tr>
+                <tr>
+                    <td>ndim</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>size</td>
+                    <td>4</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="indexacao-e-slicing">🧩 Indexação e Slicing</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+b = np.arange(16).reshape(4, 4)
+
+# elemento na linha 1, coluna 2
+b[1, 2]
+
+# subarray linhas 0–1 e colunas 1–2
+b[0:2, 1:3]
+
+# toda a coluna 2
+b[:, 2]
+
+# cada 2º elemento em ambas dimensões
+b[::2, ::2]
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Permite acessar e extrair partes específicas de um array multidimensional, facilitando operações como seleção
+            de elementos, submatrizes e amostragem regular.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>b[1, 2]</strong>: retorna o elemento da 2ª linha e 3ª coluna (índices começam em 0).</li>
+            <li><strong>b[0:2, 1:3]</strong>: fatiamento que extrai as linhas de índice 0 a 1 e colunas de índice 1 a 2.
+            </li>
+            <li><strong>b[:, 2]</strong>: seleciona todos os elementos da coluna de índice 2 em todas as linhas.</li>
+            <li><strong>b[::2, ::2]</strong>: faz um passo de 2 em 2 para linhas e colunas, pegando elementos em
+                posições (0,0), (0,2), (2,0), (2,2).</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>b</code></td>
+                    <td>
+                        <pre>array([[ 0,  1,  2,  3],
+       [ 4,  5,  6,  7],
+       [ 8,  9, 10, 11],
+       [12, 13, 14, 15]])</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>b[1, 2]</code></td>
+                    <td><code>6</code></td>
+                </tr>
+                <tr>
+                    <td><code>b[0:2, 1:3]</code></td>
+                    <td>
+                        <pre>array([[1, 2],
+       [5, 6]])</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>b[:, 2]</code></td>
+                    <td><code>array([ 2,  6, 10, 14])</code></td>
+                </tr>
+                <tr>
+                    <td><code>b[::2, ::2]</code></td>
+                    <td>
+                        <pre>array([[ 0,  2],
+       [ 8, 10]])</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="operacoes-vetoriais-broadcasting">⚡ Operações Vetoriais e Broadcasting</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# Vetor e operações elemento-a-elemento
+x = np.array([1, 2, 3])
+y = np.array([4, 5, 6])
+z = x + y       # array([5, 7, 9])
+w = x * 2       # array([2, 4, 6])
+
+# Broadcasting: soma vetor a cada linha de uma matriz
+M = np.ones((3, 3))
+R = M + x       # shape (3,3), cada linha soma [1,2,3]
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Permite realizar operações matemáticas entre arrays de forma eficiente, sem loops explícitos, e estender
+            dimensões automaticamente via broadcasting.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>x + y</strong>: soma cada elemento correspondente de x e y.</li>
+            <li><strong>x * 2</strong>: multiplica cada elemento de x pelo escalar 2.</li>
+            <li><strong>M = np.ones((3,3))</strong>: cria matriz 3×3 de uns.</li>
+            <li><strong>M + x</strong>: broadcast de x (shape (3,)) para cada linha de M, resultando em uma operação
+                vetorizada que soma [1,2,3] a cada linha.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>z = x + y</code></td>
+                    <td><code>array([5, 7, 9])</code></td>
+                </tr>
+                <tr>
+                    <td><code>w = x * 2</code></td>
+                    <td><code>array([2, 4, 6])</code></td>
+                </tr>
+                <tr>
+                    <td><code>M + x</code></td>
+                    <td>
+                        <pre>array([[2., 3., 4.],
+       [2., 3., 4.],
+       [2., 3., 4.]])</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="funcoes-universais-ufuncs">🔣 Funções Universais (ufuncs)</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# Definir vetor de exemplo
+x = np.array([1, 2, 3])
+
+# Operações vetorizadas
+sqrt_x = np.sqrt(x)    # raiz quadrada de cada elemento
+exp_x  = np.exp(x)     # exponencial
+sin_x  = np.sin(x)     # seno
+log_x  = np.log(x)     # logaritmo natural
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Aplica funções matemáticas elementwise de forma eficiente sem loops, aproveitando a vetorização para cálculos
+            rápidos em arrays.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>np.sqrt(x)</strong>: calcula a raiz quadrada de cada elemento do array.</li>
+            <li><strong>np.exp(x)</strong>: calcula o exponencial (e^x) de cada elemento.</li>
+            <li><strong>np.sin(x)</strong>: calcula o seno de cada elemento (ângulo em radianos).</li>
+            <li><strong>np.log(x)</strong>: calcula o logaritmo natural de cada elemento.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>np.sqrt(x)</code></td>
+                    <td><code>array([1.    , 1.4142, 1.7321])</code></td>
+                </tr>
+                <tr>
+                    <td><code>np.exp(x)</code></td>
+                    <td><code>array([ 2.7183,  7.3891, 20.0855])</code></td>
+                </tr>
+                <tr>
+                    <td><code>np.sin(x)</code></td>
+                    <td><code>array([0.8415, 0.9093, 0.1411])</code></td>
+                </tr>
+                <tr>
+                    <td><code>np.log(x)</code></td>
+                    <td><code>array([0.    , 0.6931, 1.0986])</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="agregacoes-estatisticas">🔢 Agregações e Estatísticas</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# 1. Criar array 100×100 de valores aleatórios entre 0 e 1
+a = np.random.rand(100, 100)
+
+# 2. Média de todos os elementos
+mean_all = a.mean()
+
+# 3. Soma por coluna (axis=0)
+sum_axis0 = a.sum(axis=0)
+
+# 4. Mínimo por linha (axis=1)
+min_axis1 = a.min(axis=1)
+
+# 5. Desvio-padrão de todos os elementos
+std_all = a.std()
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Resume rapidamente grandes volumes de dados em estatísticas chave—média, soma, mínimo e dispersão—úteis para
+            entender distribuições, detectar anomalias e comparar agregados ao longo de diferentes eixos.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>a.mean()</strong>: calcula a média aritmética de todos os elementos do array.</li>
+            <li><strong>a.sum(axis=0)</strong>: soma os valores ao longo das linhas para cada coluna, retornando um
+                vetor de comprimento 100.</li>
+            <li><strong>a.min(axis=1)</strong>: encontra o valor mínimo em cada linha, retornando um vetor de
+                comprimento 100.</li>
+            <li><strong>a.std()</strong>: calcula o desvio-padrão de todos os elementos, medindo a dispersão em relação
+                à média.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída Aproximada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>mean_all</code></td>
+                    <td><code>0.50</code></td>
+                </tr>
+                <tr>
+                    <td><code>sum_axis0</code></td>
+                    <td><code>array([49.8, 50.3, …, 50.1]) (shape=(100,))</code></td>
+                </tr>
+                <tr>
+                    <td><code>min_axis1</code></td>
+                    <td><code>array([0.0005, 0.0021, …, 0.0010]) (shape=(100,))</code></td>
+                </tr>
+                <tr>
+                    <td><code>std_all</code></td>
+                    <td><code>0.29</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="manipulacao-formato">🔄 Manipulação de Formato (reshape, transpose, stack)</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# 1. Criar vetor de 0 a 5
+v = np.arange(6)
+
+# 2. Redefinir forma para 2×3
+v2 = v.reshape(2, 3)
+
+# 3. Transpor a matriz (necessário ≥2D)
+vt = v2.T
+
+# 4. Empilhar verticalmente dois vetores
+x = np.array([1, 2, 3])
+y = np.array([4, 5, 6])
+vstack = np.vstack([x, y])
+
+# 5. Empilhar horizontalmente dois vetores como colunas
+hstack = np.hstack([x.reshape(3, 1), y.reshape(3, 1)])
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Permite reorganizar e combinar arrays de diferentes formas, essencial para preparar dados antes de cálculos e
+            concatenar resultados em estruturas desejadas.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>np.arange(6)</strong>: gera um vetor [0,1,2,3,4,5].</li>
+            <li><strong>v.reshape(2,3)</strong>: converte o vetor em uma matriz 2×3.</li>
+            <li><strong>v2.T</strong>: transposta da matriz, trocando linhas por colunas.</li>
+            <li><strong>np.vstack([x, y])</strong>: empilha os vetores x e y como linhas de uma nova matriz 2×3.</li>
+            <li><strong>np.hstack([...])</strong>: empilha x e y como colunas lado a lado, resultando em matriz 3×2.
+            </li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída / Shape</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>v</code></td>
+                    <td><code>array([0, 1, 2, 3, 4, 5]) (shape=(6,))</code></td>
+                </tr>
+                <tr>
+                    <td><code>v2</code></td>
+                    <td>
+                        <pre>array([[0, 1, 2],
+       [3, 4, 5]]) (shape=(2,3))</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>vt</code></td>
+                    <td>
+                        <pre>array([[0, 3],
+       [1, 4],
+       [2, 5]]) (shape=(3,2))</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>vstack</code></td>
+                    <td>
+                        <pre>array([[1, 2, 3],
+       [4, 5, 6]]) (shape=(2,3))</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>hstack</code></td>
+                    <td>
+                        <pre>array([[1, 4],
+       [2, 5],
+       [3, 6]]) (shape=(3,2))</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="mascaras-filtragem-boolean">🔍 Máscaras e Filtragem Booleana</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# Gerar array de 10 valores normalmente distribuídos
+data = np.random.randn(10)
+
+# Criar máscara booleana para valores positivos
+mask = data > 0
+
+# Selecionar apenas valores positivos
+positivos = data[mask]
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Permite filtrar elementos de um array com base em condições lógicas, extraindo subconjuntos relevantes de
+            forma eficiente e vetorizada.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>data = np.random.randn(10)</strong>: cria um array de 10 valores aleatórios distribuídos
+                normalmente.</li>
+            <li><strong>mask = data > 0</strong>: gera um array booleano com True para elementos maiores que zero.</li>
+            <li><strong>data[mask]</strong>: aplica a máscara para retornar somente os elementos em posições True.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída Aproximada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>data</code></td>
+                    <td><code>array([-0.23, 1.12, -0.67, 2.45, ...])</code></td>
+                </tr>
+                <tr>
+                    <td><code>mask</code></td>
+                    <td><code>array([False, True, False, True, ...])</code></td>
+                </tr>
+                <tr>
+                    <td><code>positivos</code></td>
+                    <td><code>array([1.12, 2.45, ...])</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="algebra-linear">📐 Álgebra Linear</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# 1. Definir matriz A
+A = np.array([[1, 2],
+              [3, 4]])
+
+# 2. Inversa de A
+invA = np.linalg.inv(A)
+
+# 3. Determinante de A
+detA = np.linalg.det(A)
+
+# 4. Autovalores e autovetores de A
+vals, vecs = np.linalg.eig(A)
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Realiza operações fundamentais de álgebra linear: inversão de matrizes para resolver sistemas lineares,
+            cálculo de determinante para verificar singularidade, e decomposição espectral com autovalores e
+            autovetores.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>np.linalg.inv(A)</strong>: calcula a matriz inversa de A, útil para resolver A·x = b.</li>
+            <li><strong>np.linalg.det(A)</strong>: retorna o determinante de A; se for zero, A não é invertível.</li>
+            <li><strong>np.linalg.eig(A)</strong>: devolve um array de autovalores (<code>vals</code>) e uma matriz
+                cujas colunas são os autovetores (<code>vecs</code>).</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída Aproximada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>invA</code></td>
+                    <td>
+                        <pre>array([[-2. ,  1. ],
+       [ 1.5, -0.5]])</pre>
+                    </td>
+                </tr>
+                <tr>
+                    <td><code>detA</code></td>
+                    <td><code>-2.0</code></td>
+                </tr>
+                <tr>
+                    <td><code>vals</code></td>
+                    <td><code>array([-0.3723,  5.3723])</code></td>
+                </tr>
+                <tr>
+                    <td><code>vecs</code></td>
+                    <td>
+                        <pre>array([[-0.8246, -0.4150],
+       [ 0.5658, -0.9096]])</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="transformadas-fourier">🔄 Transformadas de Fourier</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# 1. Gerar sinal senoidal de exemplo
+sinal = np.sin(np.linspace(0, 2 * np.pi, 128))
+
+# 2. Transformada de Fourier
+fft   = np.fft.fft(sinal)
+
+# 3. Transformada inversa
+ifft  = np.fft.ifft(fft)
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Converte sinais do domínio do tempo para o domínio da frequência (e vice-versa), permitindo analisar
+            componentes espectrais e filtrar ou reconstruir sinais.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>sinal = np.sin(...)</strong>: cria um vetor de 128 pontos de uma onda senoidal completa.</li>
+            <li><strong>np.fft.fft(sinal)</strong>: calcula a DFT (Transformada Discreta de Fourier), retornando
+                coeficientes complexos que representam amplitudes e fases das frequências.</li>
+            <li><strong>np.fft.ifft(fft)</strong>: aplica a transformada inversa, reconstruindo o sinal original (até
+                erros numéricos mínimos).</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída Aproximada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>fft[:5]</code></td>
+                    <td><code>array([0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j, 0.+0.j])</code> — picos nas frequências
+                        correspondentes à senóide</td>
+                </tr>
+                <tr>
+                    <td><code>ifft[:5]</code></td>
+                    <td><code>array([0.    , 0.0490, 0.0975, 0.1454, 0.1927])</code> — primeira parte do sinal
+                        reconstruído</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="geracao-aleatorios">🎲 Geração de Números Aleatórios</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# 1. Criar gerador com semente fixa
+rng = np.random.default_rng(seed=42)
+
+# 2. Inteiros aleatórios entre 0 e 9
+r_int = rng.integers(0, 10, size=5)
+
+# 3. Valores normalmente distribuídos (média=0, desvio=1)
+r_norm = rng.normal(loc=0, scale=1, size=(3, 3))
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Gera sequências de números pseudoaleatórios com diferentes distribuições, útil para simulações, testes
+            estatísticos e inicialização de algoritmos.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>np.random.default_rng(seed=42)</strong>: instancia um gerador de números aleatórios com semente
+                para resultados reprodutíveis.</li>
+            <li><strong>rng.integers(0, 10, size=5)</strong>: produz um array de 5 inteiros uniformemente distribuídos
+                entre 0 (inclusivo) e 10 (exclusivo).</li>
+            <li><strong>rng.normal(loc=0, scale=1, size=(3,3))</strong>: cria uma matriz 3×3 de valores seguindo uma
+                distribuição normal padrão (média 0, desvio 1).</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída Aproximada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>r_int</code></td>
+                    <td><code>array([8, 1, 5, 7, 3])</code></td>
+                </tr>
+                <tr>
+                    <td><code>r_norm</code></td>
+                    <td>
+                        <pre>array([[ 0.50, -0.03,  0.15],
+       [-0.14,  1.23, -0.34],
+       [ 0.67, -0.45,  0.09]])</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="leitura-gravacao-arquivos">📂 Leitura e Gravação de Arquivos</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+
+# 1. Salvar e carregar em formato binário NumPy
+a = np.array([1, 2, 3, 4])
+np.save('meu_array.npy', a)       # salva em arquivo .npy
+b = np.load('meu_array.npy')      # carrega de volta
+
+# 2. Salvar e carregar em texto (CSV/TXT)
+np.savetxt('dados.csv', a, delimiter=';', fmt='%.2f')  # salva com ponto-e-vírgula e 2 casas decimais
+c = np.loadtxt('dados.csv', delimiter=';')             # lê o texto de volta
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Permite persistir arrays em disco de forma rápida (binário) ou legível (texto), facilitando o intercâmbio de
+            dados entre scripts, aplicações e ferramentas.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>np.save('meu_array.npy', a)</strong>: grava o array <code>a</code> em formato binário NumPy
+                (.npy), que preserva dtype e shape de forma eficiente.</li>
+            <li><strong>np.load('meu_array.npy')</strong>: recarrega o array exato do arquivo .npy.</li>
+            <li><strong>np.savetxt('dados.csv', a, delimiter=';', fmt='%.2f')</strong>: exporta <code>a</code> para um
+                arquivo de texto delimitado por “;”, formatando cada valor com duas casas decimais.</li>
+            <li><strong>np.loadtxt('dados.csv', delimiter=';')</strong>: lê o arquivo de texto de volta para um array
+                NumPy de floats.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Expressão</th>
+                    <th>Saída Aproximada</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>b</code></td>
+                    <td><code>array([1, 2, 3, 4])</code></td>
+                </tr>
+                <tr>
+                    <td><code>c</code></td>
+                    <td><code>array([1.00, 2.00, 3.00, 4.00])</code></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h1 id="interoperabilidade">🔗 Interoperabilidade</h1>
+    <h2>🐍 Exemplo Python</h2>
+    <pre><code>import numpy as np
+import pandas as pd
+
+# 1. Converter NumPy → pandas DataFrame
+a = np.array([[1, 2, 3], [4, 5, 6]])
+df = pd.DataFrame(a, columns=['A', 'B', 'C'])
+
+# 2. Converter pandas DataFrame → NumPy array
+arr = df.values
+</code></pre>
+
+    <div class="bloco">
+        <h3>🧠 Para que serve?</h3>
+        <p>Facilita a troca entre a manipulação tabular do pandas e as operações numéricas do NumPy, além de permitir
+            usar diretamente arrays em bibliotecas de ML (scikit-learn, TensorFlow) e funções do SciPy.</p>
+    </div>
+
+    <div class="bloco">
+        <h3>🔍 Explicação passo a passo</h3>
+        <ul>
+            <li><strong>pd.DataFrame(a, columns=[...])</strong>: transforma um array NumPy em um DataFrame com nomes de
+                colunas.</li>
+            <li><strong>df.values</strong>: extrai os dados do DataFrame como um array NumPy, mantendo dtype e ordem.
+            </li>
+            <li>A partir desse array, você pode chamar <code>model.fit(arr, y)</code> em scikit-learn ou usar funções do
+                SciPy que esperam arrays NumPy.</li>
+        </ul>
+    </div>
+
+    <div class="bloco">
+        <h3>🧾 Exemplo de Saída</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>DataFrame (df)</th>
+                    <th>NumPy Array (arr)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <pre>   A  B  C
+0  1  2  3
+1  4  5  6</pre>
+                    </td>
+                    <td>
+                        <pre>array([[1, 2, 3],
+       [4, 5, 6]])</pre>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
